@@ -15,31 +15,9 @@ This website works with the symfony framework ( 5.0.5 ).
 - Tailwind CSS
 - Webpack 
 
-### Use this project 
-
--  clone this project on your environment 
--  configure your variable environment
--  run `composer install`
--  run `php bin/console d:d:c`
--  run `php bin/console d:m:m`
--  run `php bin/console d:f:l -n`
-
--  You can run this project with docker containers ( docker-compose included in this repository )
-
-##### For Docker run :
-
-run this project with docker containers (docker-compose included in this repository )
-
-```
-docker-compose up -d
-```
-## Deployment
+## Use this App : 
 
 
-##### For Ansible, create your ansible/hosts.ini and run:
-```
-ansible-playbook ansible/playbook.yml -i ansible/hosts.ini --ask-vault-pass
-```
 
 ## Testing 
 
