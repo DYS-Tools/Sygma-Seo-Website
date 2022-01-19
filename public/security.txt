@@ -1,0 +1,4 @@
+Contact: mailto:yohanndurand76@gmail.com
+Expires: 2023-12-12T11:11:00.000Z
+Preferred-Languages: fr, en
+Encryption: https://sygma.com/security.txt
