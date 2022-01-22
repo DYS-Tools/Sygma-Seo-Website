@@ -1,0 +1,77 @@
+version: '3.3'
+
+services:
+
+  sygma-mysql:
+    image: mysql:5.7
+    container_name: sygma-mysql
+    environment:
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: root
+    restart: always
+    volumes:
+      - db_data_ssw:/var/lib/mysql
+
+  sygma-nginx:
+    container_name: sygma-nginx
+    #image: nginx
+    build: docker/nginx
+    links:
+      - sygma-php
+    ports:
+      - 80:80
+      #- 443:443
+    restart: always
+    volumes:
+      - .:/var/www/Sygma-Seo-Website
+      #- ./docker/nginx/server-dev.conf:/etc/nginx/conf.d/default.conf
+    working_dir: /var/www/Sygma-Seo-Website
+
+  sygma-php:
+    build: docker/php
+    container_name: sygma-php
+    depends_on:
+      - sygma-mysql
+    ports:
+      - 9000:9000
+    restart: always
+    volumes:
+      - .:/var/www/Sygma-Seo-Website
+      #- "sn-shell:/root"
+    working_dir: /var/www/Sygma-Seo-Website
+    
+
+  sygma-phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: sygma-PhpMyAdmin
+    restart: always
+    links:
+      - sygma-mysql:sygma-mysql
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: sygma-mysql
+
+###> doctrine/doctrine-bundle ###
+  database:
+    image: postgres:${POSTGRES_VERSION:-13}-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+      # You should definitely change the password in production
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ChangeMe}
+      POSTGRES_USER: ${POSTGRES_USER:-symfony}
+    volumes:
+      - db-data:/var/lib/postgresql/data:rw
+      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+      # - ./docker/db/data:/var/lib/postgresql/data:rw
+###< doctrine/doctrine-bundle ###
+
+volumes:
+  db_data_ssw: # mysql
+  db-data-ssw: # postgres
+  sn-shell:
+  logs:
+
+###> doctrine/doctrine-bundle ###
+  db-data:
+###< doctrine/doctrine-bundle ###
